@@ -56,8 +56,9 @@ export const svgDimensions = (document: Document, svg: string) => {
 	let height: number;
 	try {
 		const parser = new DOMParser();
-		const id = parser.parseFromString(svg, 'text/html').querySelector('svg').id;
-		({ width, height } = document.querySelector<HTMLIFrameElement>('.noteTextViewer').contentWindow.document.querySelector(`#${id}`).getBoundingClientRect());
+		const parsedSVG = parser.parseFromString(svg, 'text/html').querySelector('svg');
+		width = parsedSVG.viewBox.baseVal.width;
+		height = parsedSVG.viewBox.baseVal.height;
 	} catch (error) {
 		logger.warn('Could not get SVG dimensions.');
 		logger.warn('Error was: ', error);
